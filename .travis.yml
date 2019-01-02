@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t pwbwolf/react-test -f ./client/Dockerfile.dev .
+
+script:
+  - docker run pwbwolf/react-test npm test -- --coverage
+
+
+after_success:
+  -docker build -t pwbwolf/multi-client ./client
+  -docker build -t pwbwolf/multi-nginx ./nginx
+  -docker build -t pwbwolf/multi-server ./server
+  -docker build -t pwbwolf/multi-worker ./worker
+  # Log in to docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$Docker_ID" --password-stdin
+  # Take those images and push them to docker hub
+  - docker push pwbwolf/multi-client
+  - docker push pwbwolf/multi-nginx
+  - docker push pwbwolf/multi-server
+  - docker push pwbwolf/multi-worker
