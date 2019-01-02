@@ -10,10 +10,10 @@ script:
 
 
 after_success:
-  -docker build -t pwbwolf/multi-client ./client
-  -docker build -t pwbwolf/multi-nginx ./nginx
-  -docker build -t pwbwolf/multi-server ./server
-  -docker build -t pwbwolf/multi-worker ./worker
+  - docker build -t pwbwolf/multi-client ./client
+  - docker build -t pwbwolf/multi-nginx ./nginx
+  - docker build -t pwbwolf/multi-server ./server
+  - docker build -t pwbwolf/multi-worker ./worker
   # Log in to docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$Docker_ID" --password-stdin
   # Take those images and push them to docker hub
